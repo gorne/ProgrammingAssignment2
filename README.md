@@ -28,21 +28,38 @@ really a list containing a function to
 4.  get the value of the mean
 
 <!-- -->
+#esta función me devuelve una lista de funciones: set, get, setmean, getmean
 
-    makeVector <- function(x = numeric()) {
+#El objeto creado por makeVector es un objeto con funciones, con el cual se puede interactuar
+
+    makeVector <- function(x = numeric()) {	#la función toma como argumento un vector, tiene un valor por defecto para su argumento, un vector de longitud 0
             m <- NULL
-            set <- function(y) {
-                    x <<- y
+
+		#no entiendo que hace esta parte pero sin ella no funciona
+            set <- function(y) {	#de donde toma el argumento "y" esta función?
+                    x <<- y		#crea un vector asignando "y" a "x"
                     m <<- NULL
             }
-            get <- function() x
-            setmean <- function(mean) m <<- mean
-            getmean <- function() m
+            get <- function() x		#muestra el vector creado en "set"
+            setmean <- function(mean) m <<- mean	#establece un valor m como media
+            getmean <- function() m			#muestra el valor m creado
             list(set = set, get = get,
                  setmean = setmean,
-                 getmean = getmean)
+                 getmean = getmean)			#esta es la lista que muestra cuando llamo a la función makeVector
     }
 
+    makeVector2 <- function(x = numeric()) {	#la función toma como argumento un vector, tiene un valor por defecto para su argumento, un vector de longitud 0
+            m <- NULL
+            get <- function() {x}		#muestra el vector creado en "set"
+            setmean <- function(mean) {m <<- mean}	#establece un valor m como media
+            getmean <- function() {m}			#muestra el valor m creado
+            list(get = get,
+                 setmean = setmean,
+                 getmean = getmean)	#esta es la lista que muestra cuando llamo a la función makeVector
+    }
+
+    
+    
 The following function calculates the mean of the special "vector"
 created with the above function. However, it first checks to see if the
 mean has already been calculated. If so, it `get`s the mean from the
@@ -50,7 +67,7 @@ cache and skips the computation. Otherwise, it calculates the mean of
 the data and sets the value of the mean in the cache via the `setmean`
 function.
 
-    cachemean <- function(x, ...) {
+    cachemean <- function(x, ...) {  #el argumento de esta función es uno creado con la función anterior.
             m <- x$getmean()
             if(!is.null(m)) {
                     message("getting cached data")
@@ -62,6 +79,15 @@ function.
             m
     }
 
+
+Las dos funciones interactuan de la siguiente manera:
+
+> a<-0.1:10
+> b<-makeVector(a)
+> cachemean(b)
+[1] 4.6
+
+    
 ### Assignment: Caching the Inverse of a Matrix
 
 Matrix inversion is usually a costly computation and there may be some
